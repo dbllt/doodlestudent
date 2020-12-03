@@ -6,12 +6,39 @@ services:
       - "3306:3306"
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=true
+      - MYSQL_ROOT_PASSWORD=tlc
+      - MYSQL_DATABASE=tlc
+      - MYSQL_USER=tlc
+      - MYSQL_PASSWORD=tlc
   etherpad:
     image: etherpad/etherpad:stable
     ports:
       - "9001:9001"
     volumes:
       - ./APIKEY.txt:/opt/etherpad-lite/APIKEY.txt
+  doodleback:
+    build : .
+    ports:
+      - "8080:8080"
+    deploy:
+      replicas: 6
+      placement:
+        max_replicas_per_node: 1
+      restart_policy:
+        condition: on-failure
+  doodlefront:
+    image: bunkerity/bunkerized-nginx
+    restart: always
+    ports:
+      - 80:8080
+    volumes:
+      - ./distfront:/www:ro
+    environment:
+      - USE_CLIENT_CACHE=yes
+  myadmin:
+    image : phpmyadmin
+    ports:
+      - "8082:80"
   mail:
     image: bytemark/smtp
     restart: always
