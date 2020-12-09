@@ -20,15 +20,15 @@ services:
     build : .
     ports:
       - "8080:8080"
-    volumes:
-      - ./distfront:/app/dist/tlcfront
   doodlefront: 
-    build: ../front/
+    build: 
+      context: ../front/
+      dockerfile: Dockerfile
+      target : prod
     ports:
       - 80:8080
     volumes:
       - ./server-confs:/server-confs:ro
-      - ./distfront:/www:ro
     environment:
       - USE_CLIENT_CACHE=yes
   myadmin:
@@ -40,3 +40,4 @@ services:
     restart: always
     ports:
       - "2525:25"
+
