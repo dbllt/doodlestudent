@@ -20,20 +20,15 @@ services:
     build : .
     ports:
       - "8080:8080"
-    deploy:
-      replicas: 6
-      placement:
-        max_replicas_per_node: 1
-      restart_policy:
-        condition: on-failure
-  doodlefront:
-    image: bunkerity/bunkerized-nginx
-    restart: always
+    volumes:
+      - ./distfront:/app/dist/tlcfront
+  doodlefront: 
+    build: ../front/
     ports:
       - 80:8080
     volumes:
-      - ./distfront:/www:ro
       - ./server-confs:/server-confs:ro
+      - ./distfront:/www:ro
     environment:
       - USE_CLIENT_CACHE=yes
   myadmin:
