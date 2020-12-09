@@ -20,6 +20,12 @@ services:
     build : .
     ports:
       - "8080:8080"
+    deploy:
+      replicas: 6
+      placement:
+        max_replicas_per_node: 1
+      restart_policy:
+        condition: on-failure
   doodlefront: 
     build: 
       context: ../front/
@@ -40,4 +46,8 @@ services:
     restart: always
     ports:
       - "2525:25"
+
+
+
+
 
