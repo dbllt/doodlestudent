@@ -15,9 +15,9 @@ services:
     ports:
       - "9001:9001"
     volumes:
-      - ./APIKEY.txt:/opt/etherpad-lite/APIKEY.txt
+      - ./api/APIKEY.txt:/opt/etherpad-lite/APIKEY.txt
   doodleback:
-    build : .
+    build : ./api/
     ports:
       - "8080:8080"
     deploy:
@@ -28,13 +28,13 @@ services:
         condition: on-failure
   doodlefront: 
     build: 
-      context: ../front/
+      context: ./front/
       dockerfile: Dockerfile
       target : prod
     ports:
       - 80:8080
     volumes:
-      - ./server-confs:/server-confs:ro
+      - ./api/server-confs:/server-confs:ro
     environment:
       - USE_CLIENT_CACHE=yes
   myadmin:
