@@ -35,8 +35,6 @@ services:
       - 80:8080
     volumes:
       - ./api/server-confs:/server-confs:ro
-    environment:
-      - USE_CLIENT_CACHE=yes
   myadmin:
     image : phpmyadmin
     ports:
