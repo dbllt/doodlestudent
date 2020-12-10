@@ -12,6 +12,10 @@ FROM bunkerity/bunkerized-nginx as prod
 #ENV phpmyadmin.rillettes.diverse-team.fr_PROXY_HOST=http://myadmin:8082
 #ENV pad.rillettes.diverse-team.fr_PROXY_URL=/
 #ENV pad.rillettes.diverse-team.fr_PROXY_HOST=http://etherpad:9001
+#ENV SERVER_NAME=rillettes.diverse-team.fr
+#ENV AUTO_LETS_ENCRYPT=yes
+#ENV REDIRECT_HTTP_TO_HTTPS=yes
+
 COPY --from=build-step /app/dist/out/ /www
 
 
