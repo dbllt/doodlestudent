@@ -50,8 +50,33 @@ services:
     restart: always
     ports:
       - "2525:25"
-
-
-
-
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - 9090:9090
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    restart: unless-stopped
+  grafana:
+    image: grafana/grafana:6.7.2
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - GF_SECURITY_ADMIN_USER="root
+      - GF_SECURITY_ADMIN_PASSWORD=root
+      - GF_USERS_ALLOW_SIGN_UP=false
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+  #jenkins:
+  #  image: jenkins/jenkins:lts
+  #  privileged: true
+  #  user: root
+  #  ports:
+  #    - 8083:8080
+  #    - 50003:50000
+  #  volumes:
+  #    - ./jenkins_data:/var/jenkins_home
+  #    - /var/run/docker.sock:/var/run/docker.sock
 
