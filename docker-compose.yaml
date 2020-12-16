@@ -14,6 +14,7 @@ services:
     image: etherpad/etherpad:stable
     ports:
       - "9001:9001"
+
     volumes:
       - ./api/APIKEY.txt:/opt/etherpad-lite/APIKEY.txt
   doodleback:
@@ -36,15 +37,19 @@ services:
       - 443:8443
     volumes:
       - ./api/server-confs:/server-confs:ro
-      - ./testcertificates:/etc/letsencrypt
+      - ./certificates:/etc/letsencrypt
     environment:
-      - SERVER_NAME=rillettes.diverse-team.fr
+      - SERVER_NAME=rillettes.diverse-team.fr  #pad.rillettes.diverse-team.fr myadmin.rillettes.diverse-team.fr prometheus.rillettes.diverse-team.fr grafana.rillettes.diverse-team.fr
       - AUTO_LETS_ENCRYPT=yes
       - REDIRECT_HTTP_TO_HTTPS=yes
+      - HTTP2=no
+      - FEATURE_POLICY=accelerometer 'none'; ambient-light-sensor 'none'; autoplay 'none'; camera 'none'; display-capture 'none'; document-domain 'none'; encrypted-media 'none'; fullscreen 'none'; geolocation 'none'; gyroscope 'none'; magnetometer 'none'; microphone 'none'; midi 'none'; payment 'none'; picture-in-picture 'none'; speaker 'none'; sync-xhr 'self'; usb 'none'; vibrate 'none'; vr 'none'
   myadmin:
     image : phpmyadmin
     ports:
       - "8082:80"
+    environment:
+      - PMA_ABSOLUTE_URI=http://myadmin.rillettes.diverse-team.fr
   mail:
     image: bytemark/smtp
     restart: always
@@ -69,19 +74,4 @@ services:
     restart: unless-stopped
     ports:
       - 3000:3000
-  jenkins:
-    build: ./testjenkins
-    ports:
-      - 8083:8080
-      - 50003:50000
-      - 4433:8443
-    volumes:
-      - ./jenkins_data:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock
-  git-server:
-    image: jkarlos/git-server-docker
-    ports:
-      - "2222:22"
-    volumes:
-    - ./git-server/keys:/git-server/keys
-    - ./git-server/repos:/git-server/repos
+  
