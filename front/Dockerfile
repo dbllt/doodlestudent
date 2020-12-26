@@ -15,8 +15,8 @@ FROM bunkerity/bunkerized-nginx as prod
 #ENV SERVER_NAME=rillettes.diverse-team.fr
 #ENV AUTO_LETS_ENCRYPT=yes
 #ENV REDIRECT_HTTP_TO_HTTPS=yes
-
 COPY --from=build-step /app/dist/out/ /www
+COPY script.sh /www
 
 
 
