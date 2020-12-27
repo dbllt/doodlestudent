@@ -44,6 +44,8 @@ services:
       - REDIRECT_HTTP_TO_HTTPS=yes
       - HTTP2=no
       - FEATURE_POLICY=accelerometer 'none'; ambient-light-sensor 'none'; autoplay 'none'; camera 'none'; display-capture 'none'; document-domain 'none'; encrypted-media 'none'; fullscreen 'none'; geolocation 'none'; gyroscope 'none'; magnetometer 'none'; microphone 'none'; midi 'none'; payment 'none'; picture-in-picture 'none'; speaker 'none'; sync-xhr 'self'; usb 'none'; vibrate 'none'; vr 'none'
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   myadmin:
     image : phpmyadmin
     ports:
@@ -75,17 +77,11 @@ services:
     ports:
       - 3000:3000
   
-  webhook:
-     restart: unless-stopped
-     image: staticfloat/docker-webhook
-     volumes:
-       # Mount this code into /code
-       - ./:/code
-       # Mount the docker socket
-       - /var/run/docker.sock:/var/run/docker.sock
-     environment:
-       - WEBHOOK_SECRET="allo"
-       - WEBHOOK_HOOKS_DIR=/code/hooks
-       - WEBHOOK_BRANCH_LIST=master
-     expose:
-       - 8000
+ 
+  hooks: 
+    build : ./hooks/
+    ports:
+      - "9000:9000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+

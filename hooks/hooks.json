@@ -1,0 +1,18 @@
+[
+  {
+    "id": "redeploy",
+    "execute-command": "./scripts/redeploy.sh",
+    "command-working-directory": "./",
+    "response-message": "Redeploying API server."
+  }
+  ,
+
+ {
+    "id": "truc",
+    "execute-command": "./scripts/truc.sh",
+    "command-working-directory": "./",
+    "response-message": "truc"
+  }
+
+]
+
