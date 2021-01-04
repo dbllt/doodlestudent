@@ -1,7 +1,10 @@
 version: "3.8"
+
 services:
+
   db:
     image: mysql
+    container_name: db
     ports:
       - "3306:3306"
     environment:
@@ -10,15 +13,18 @@ services:
       - MYSQL_DATABASE=tlc
       - MYSQL_USER=tlc
       - MYSQL_PASSWORD=tlc
+
   etherpad:
     image: etherpad/etherpad:stable
+    container_name: etherpad
     ports:
       - "9001:9001"
-
     volumes:
       - ./api/APIKEY.txt:/opt/etherpad-lite/APIKEY.txt
+
   doodleback:
     build : ./api/
+    container_name: doodleback
     ports:
       - "8080:8080"
     deploy:
@@ -27,11 +33,13 @@ services:
         max_replicas_per_node: 1
       restart_policy:
         condition: on-failure
+
   doodlefront: 
     build: 
       context: ./front/
       dockerfile: Dockerfile
       target : prod
+    container_name: doodlefront
     ports:
       - 80:8080
       - 443:8443
@@ -44,21 +52,25 @@ services:
       - REDIRECT_HTTP_TO_HTTPS=yes
       - HTTP2=no
       - FEATURE_POLICY=accelerometer 'none'; ambient-light-sensor 'none'; autoplay 'none'; camera 'none'; display-capture 'none'; document-domain 'none'; encrypted-media 'none'; fullscreen 'none'; geolocation 'none'; gyroscope 'none'; magnetometer 'none'; microphone 'none'; midi 'none'; payment 'none'; picture-in-picture 'none'; speaker 'none'; sync-xhr 'self'; usb 'none'; vibrate 'none'; vr 'none'
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+
   myadmin:
     image : phpmyadmin
+    container_name: myadmin
     ports:
       - "8082:80"
     environment:
       - PMA_ABSOLUTE_URI=http://myadmin.rillettes.diverse-team.fr
+
   mail:
     image: bytemark/smtp
+    container_name: mail
     restart: always
     ports:
       - "2525:25"
+
   prometheus:
     image: prom/prometheus:latest
+    container_name: prometheus
     ports:
       - 9090:9090
     command:
@@ -66,22 +78,55 @@ services:
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
     restart: unless-stopped
+
   grafana:
     image: grafana/grafana:6.7.2
+    container_name: grafana
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning
-      - GF_SECURITY_ADMIN_USER="root
+    environment:
+      - GF_SECURITY_ADMIN_USER=root
       - GF_SECURITY_ADMIN_PASSWORD=root
       - GF_USERS_ALLOW_SIGN_UP=false
+    links:
+      - prometheus
     restart: unless-stopped
     ports:
       - 3000:3000
   
- 
-  hooks: 
-    build : ./hooks/
+  munin:
+    image: bauerj/munin-v3:3.0b11
+    container_name: munin
     ports:
-      - "9000:9000"
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - "4948:4948"
+    volumes:
+      - ./munin/lib:/var/lib/munin
+      - ./munin/conf:/usr/local/etc/munin/munin-conf.d
 
+  mysql_keycloack:
+      image: mysql:5.7
+      container_name : mysql_keycloack
+      volumes:
+        - ./mysql_data:/var/lib/mysql
+      environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: keycloak
+        MYSQL_USER: keycloak
+        MYSQL_PASSWORD: password
+
+
+  keycloack:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: keycloack
+    depends_on:
+      - mysql_keycloack
+    ports:
+      - "8989:8080"
+    environment:
+      DB_VENDOR: MYSQL
+      DB_ADDR: mysql_keycloack
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_PASSWORD: password
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
