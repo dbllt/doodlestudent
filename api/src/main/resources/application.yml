@@ -13,9 +13,11 @@ quarkus:
     jdbc:
       url: jdbc:mysql://db:3306/tlc?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&createDatabaseIfNotExist=true&serverTimezone=Europe/Paris&allowPublicKeyRetrieval=true&useSSL=false
       driver: com.mysql.cj.jdbc.Driver
-  hibernate-orm:
-    database:
-      generation: update
+  flyway:
+    migrate-at-start: true
+#    database:
+#      generation: none
+#      globally-quoted-identifiers: true
   mailer:
     from: test@quarkus.io
 #    host: smtp.sendgrid.net
