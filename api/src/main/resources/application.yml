@@ -1,7 +1,7 @@
 doodle:
   usepad: true
   internalPadUrl: "http://etherpad:9001/"
-  externalPadUrl: "http://pad.rillettes.diverse-team.fr/"
+  externalPadUrl: "https://pad.rillettes.diverse-team.fr/"
   padApiKey: "19d89ca52bc0fa4f19d6325464d9d7a032649b9fa68c111514627081e2784b4a"
   organizermail: "olivier.barais@gmail.com"
   tmpfolder: "/tmp/excelFiles"
