@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: etherpad
+  name: etherpad
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: etherpad
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: etherpad
+    spec:
+      containers:
+        - image: etherpad/etherpad:stable
+          name: etherpad
+          ports:
+            - containerPort: 9001
+          resources: {}
+          volumeMounts:
+            - mountPath: /opt/etherpad-lite/APIKEY.txt
+              name: etherpad-claim0
+      restartPolicy: Always
+      volumes:
+        - name: etherpad-claim0
+          persistentVolumeClaim:
+            claimName: etherpad-claim0
+status: {}

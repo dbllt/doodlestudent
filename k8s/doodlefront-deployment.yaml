@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: doodlefront
+  name: doodlefront
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: doodlefront
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: doodlefront
+    spec:
+      containers:
+        - env:
+            - name: AUTO_LETS_ENCRYPT
+              value: "yes"
+            - name: FEATURE_POLICY
+              value: accelerometer 'none'; ambient-light-sensor 'none'; autoplay 'none'; camera 'none'; display-capture 'none'; document-domain 'none'; encrypted-media 'none'; fullscreen 'none'; geolocation 'none'; gyroscope 'none'; magnetometer 'none'; microphone 'none'; midi 'none'; payment 'none'; picture-in-picture 'none'; speaker 'none'; sync-xhr 'self'; usb 'none'; vibrate 'none'; vr 'none'
+            - name: HTTP2
+              value: "no"
+            - name: REDIRECT_HTTP_TO_HTTPS
+              value: "yes"
+            - name: SERVER_NAME
+              value: rillettes.diverse-team.fr
+          image: doodlefront
+          name: doodlefront
+          ports:
+            - containerPort: 8080
+            - containerPort: 8443
+          resources: {}
+          volumeMounts:
+            - mountPath: /server-confs
+              name: doodlefront-claim0
+              readOnly: true
+            - mountPath: /etc/letsencrypt
+              name: doodlefront-claim1
+      restartPolicy: Always
+      volumes:
+        - name: doodlefront-claim0
+          persistentVolumeClaim:
+            claimName: doodlefront-claim0
+            readOnly: true
+        - name: doodlefront-claim1
+          persistentVolumeClaim:
+            claimName: doodlefront-claim1
+status: {}

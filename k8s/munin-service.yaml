@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: munin
+  name: munin
+spec:
+  ports:
+    - name: "4948"
+      port: 4948
+      targetPort: 4948
+  selector:
+    io.kompose.service: munin
+status:
+  loadBalancer: {}

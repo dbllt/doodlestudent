@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: doodlefront
+  name: doodlefront
+spec:
+  ports:
+    - name: "80"
+      port: 80
+      targetPort: 8080
+    - name: "443"
+      port: 443
+      targetPort: 8443
+  selector:
+    io.kompose.service: doodlefront
+status:
+  loadBalancer: {}

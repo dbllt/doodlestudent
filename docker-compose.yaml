@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3.7"
 
 services:
 
@@ -28,9 +28,6 @@ services:
     ports:
       - "8080:8080"
     deploy:
-      replicas: 6
-      placement:
-        max_replicas_per_node: 1
       restart_policy:
         condition: on-failure
 
@@ -47,7 +44,7 @@ services:
       - ./api/server-confs:/server-confs:ro
       - ./certificates:/etc/letsencrypt
     environment:
-      - SERVER_NAME=rillettes.diverse-team.fr  #pad.rillettes.diverse-team.fr myadmin.rillettes.diverse-team.fr prometheus.rillettes.diverse-team.fr grafana.rillettes.diverse-team.fr
+      - SERVER_NAME=rillettes.diverse-team.fr pad.rillettes.diverse-team.fr myadmin.rillettes.diverse-team.fr prometheus.rillettes.diverse-team.fr grafana.rillettes.diverse-team.fr 
       - AUTO_LETS_ENCRYPT=yes
       - REDIRECT_HTTP_TO_HTTPS=yes
       - HTTP2=no

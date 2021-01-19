@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: munin
+  name: munin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: munin
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: munin
+    spec:
+      containers:
+        - image: bauerj/munin-v3:3.0b11
+          name: munin
+          ports:
+            - containerPort: 4948
+          resources: {}
+          volumeMounts:
+            - mountPath: /var/lib/munin
+              name: munin-claim0
+            - mountPath: /usr/local/etc/munin/munin-conf.d
+              name: munin-claim1
+      restartPolicy: Always
+      volumes:
+        - name: munin-claim0
+          persistentVolumeClaim:
+            claimName: munin-claim0
+        - name: munin-claim1
+          persistentVolumeClaim:
+            claimName: munin-claim1
+status: {}
