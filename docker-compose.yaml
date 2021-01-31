@@ -7,6 +7,8 @@ services:
     container_name: db
     ports:
       - "3306:3306"
+    volumes:
+      - ./mysql_data:/var/lib/mysql
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=true
       - MYSQL_ROOT_PASSWORD=tlc
@@ -25,6 +27,8 @@ services:
   doodleback:
     build : ./api/
     container_name: doodleback
+    depends_on:
+      - db
     ports:
       - "8080:8080"
     deploy:
@@ -75,6 +79,7 @@ services:
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
     restart: unless-stopped
+  
   grafana:
     image: grafana/grafana:6.7.2
     container_name: grafana
@@ -90,39 +95,39 @@ services:
     ports:
       - 3000:3000
  
-#  munin:
-#    image: bauerj/munin-v3:3.0b11
-#    container_name: munin
-#    ports:
-#      - "4948:4948"
-#    volumes:
-#      - ./munin/lib:/var/lib/munin
-#      - ./munin/conf:/usr/local/etc/munin/munin-conf.d
+  munin:
+    image: bauerj/munin-v3:3.0b11
+    container_name: munin
+    ports:
+      - "4948:4948"
+    volumes:
+      - ./munin/lib:/var/lib/munin
+      - ./munin/conf:/usr/local/etc/munin/munin-conf.d
+ 
+  mysql_keycloack:
+      image: mysql:latest
+      container_name : mysql_keycloack
+      volumes:
+        - ./keycloack_mysql_data:/var/lib/keycloack_mysql
+      environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: keycloak
+        MYSQL_USER: keycloak
+        MYSQL_PASSWORD: password
 
-#  mysql_keycloack:
-#      image: mysql:latest
-#      container_name : mysql_keycloack
-#      volumes:
-#        - ./mysql_data:/var/lib/keycloack_mysql
-#      environment:
-#        MYSQL_ROOT_PASSWORD: root
-#        MYSQL_DATABASE: keycloak
-#        MYSQL_USER: keycloak
-#        MYSQL_PASSWORD: password
-
-#  keycloack:
-#    image: quay.io/keycloak/keycloak:latest
-#    container_name: keycloack
-#    depends_on:
-#      - mysql_keycloack
-#    ports:
-#      - "8989:8080"
-#    environment:
-#      DB_VENDOR: MYSQL
-#      DB_ADDR: mysql_keycloack
-#      DB_DATABASE: keycloak
-#      DB_USER: keycloak
-#      DB_PASSWORD: password
-#      KEYCLOAK_USER: admin
-#      KEYCLOAK_PASSWORD: admin
-#      PROXY_ADDRESS_FORWARDING: "true"
+  keycloack:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: keycloack
+    depends_on:
+      - mysql_keycloack
+    ports:
+      - "8989:8080"
+    environment:
+      DB_VENDOR: MYSQL
+      DB_ADDR: mysql_keycloack
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_PASSWORD: password
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      PROXY_ADDRESS_FORWARDING: "true"
