@@ -48,7 +48,7 @@ services:
       - ./api/server-confs:/server-confs:ro
       - ./certificates:/etc/letsencrypt
     environment:
-      - SERVER_NAME=rillettes.diverse-team.fr pad.rillettes.diverse-team.fr myadmin.rillettes.diverse-team.fr prometheus.rillettes.diverse-team.fr grafana.rillettes.diverse-team.fr 
+      - SERVER_NAME=rillettes.diverse-team.fr pad.rillettes.diverse-team.fr myadmin.rillettes.diverse-team.fr prometheus.rillettes.diverse-team.fr grafana.rillettes.diverse-team.fr keycloack.rillettes.diverse-team.fr
       - AUTO_LETS_ENCRYPT=yes
       - REDIRECT_HTTP_TO_HTTPS=yes
       - HTTP2=no
@@ -104,30 +104,30 @@ services:
       - ./munin/lib:/var/lib/munin
       - ./munin/conf:/usr/local/etc/munin/munin-conf.d
  
-  mysql_keycloack:
-      image: mysql:latest
-      container_name : mysql_keycloack
-      volumes:
-        - ./keycloack_mysql_data:/var/lib/keycloack_mysql
-      environment:
-        MYSQL_ROOT_PASSWORD: root
-        MYSQL_DATABASE: keycloak
-        MYSQL_USER: keycloak
-        MYSQL_PASSWORD: password
+#  mysql_keycloack:
+#      image: mysql:latest
+#      container_name : mysql_keycloack
+#      volumes:
+#        - ./keycloack_mysql_data:/var/lib/keycloack_mysql
+#      environment:
+#        MYSQL_ROOT_PASSWORD: root
+#        MYSQL_DATABASE: keycloak
+#        MYSQL_USER: keycloak
+#        MYSQL_PASSWORD: password
 
-  keycloack:
-    image: quay.io/keycloak/keycloak:latest
-    container_name: keycloack
-    depends_on:
-      - mysql_keycloack
-    ports:
-      - "8989:8080"
-    environment:
-      DB_VENDOR: MYSQL
-      DB_ADDR: mysql_keycloack
-      DB_DATABASE: keycloak
-      DB_USER: keycloak
-      DB_PASSWORD: password
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: admin
-      PROXY_ADDRESS_FORWARDING: "true"
+#  keycloack:
+#    image: quay.io/keycloak/keycloak:latest
+#    container_name: keycloack
+#    depends_on:
+#      - mysql_keycloack
+#    ports:
+#      - "8989:8080"
+#    environment:
+#      DB_VENDOR: MYSQL
+#      DB_ADDR: mysql_keycloack
+#      DB_DATABASE: keycloak
+#      DB_USER: keycloak
+#      DB_PASSWORD: password
+#      KEYCLOAK_USER: admin
+#      KEYCLOAK_PASSWORD: admin
+#      PROXY_ADDRESS_FORWARDING: "true"
