@@ -35,7 +35,7 @@ spec:
             - name: REDIRECT_HTTP_TO_HTTPS
               value: "yes"
             - name: SERVER_NAME
-              value: rillettes.diverse-team.fr
+              value: rillettes.diverse-team.fr pad.rillettes.diverse-team.fr myadmin.rillettes.diverse-team.fr prometheus.rillettes.diverse-team.fr grafana.rillettes.diverse-team.fr
           image: doodlefront
           name: doodlefront
           ports:
