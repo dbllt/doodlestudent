@@ -1,7 +1,6 @@
 version: "3.7"
 
 services:
-
   db:
     image: mysql
     container_name: db
@@ -103,17 +102,17 @@ services:
     volumes:
       - ./munin/lib:/var/lib/munin
       - ./munin/conf:/usr/local/etc/munin/munin-conf.d
- 
+
 #  mysql_keycloack:
-#      image: mysql:latest
-#      container_name : mysql_keycloack
-#      volumes:
-#        - ./keycloack_mysql_data:/var/lib/keycloack_mysql
-#      environment:
-#        MYSQL_ROOT_PASSWORD: root
-#        MYSQL_DATABASE: keycloak
-#        MYSQL_USER: keycloak
-#        MYSQL_PASSWORD: password
+#    image: mysql:latest
+#    container_name : mysql_keycloack
+#    volumes:
+#      - ./keycloack_mysql_data:/var/lib/keycloack_mysql
+#    environment:
+#      MYSQL_ROOT_PASSWORD: root
+#      MYSQL_DATABASE: keycloak
+#      MYSQL_USER: keycloak
+#      MYSQL_PASSWORD: password
 
 #  keycloack:
 #    image: quay.io/keycloak/keycloak:latest
@@ -130,4 +129,5 @@ services:
 #      DB_PASSWORD: password
 #      KEYCLOAK_USER: admin
 #      KEYCLOAK_PASSWORD: admin
-#      PROXY_ADDRESS_FORWARDING: "true"
+#      PROXY_ADDRESS_FORWARDING: 'true'
+#      KEYCLOAK_FRONTEND_URL: keycloack.rillettes.diverse-team.fr
