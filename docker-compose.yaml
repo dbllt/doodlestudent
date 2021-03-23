@@ -52,7 +52,13 @@ services:
       - REDIRECT_HTTP_TO_HTTPS=yes
       - HTTP2=no
       - FEATURE_POLICY=accelerometer 'none'; ambient-light-sensor 'none'; autoplay 'none'; camera 'none'; display-capture 'none'; document-domain 'none'; encrypted-media 'none'; fullscreen 'none'; geolocation 'none'; gyroscope 'none'; magnetometer 'none'; microphone 'none'; midi 'none'; payment 'none'; picture-in-picture 'none'; speaker 'none'; sync-xhr 'self'; usb 'none'; vibrate 'none'; vr 'none'
-
+      - BLOCK_USER_AGENT=no
+      - BLOCK_TOR_EXIT_NODE=no
+      - BLOCK_PROXIES=no
+      - BLOCK_ABUSERS=no
+      - BLOCK_REFERRER=no
+      - USE_LIMIT_REQ=no
+      - USE_FAIL2BAN=no
   myadmin:
     image : phpmyadmin
     container_name: myadmin
@@ -103,31 +109,31 @@ services:
       - ./munin/lib:/var/lib/munin
       - ./munin/conf:/usr/local/etc/munin/munin-conf.d
 
-#  mysql_keycloack:
-#    image: mysql:latest
-#    container_name : mysql_keycloack
-#    volumes:
-#      - ./keycloack_mysql_data:/var/lib/keycloack_mysql
-#    environment:
-#      MYSQL_ROOT_PASSWORD: root
-#      MYSQL_DATABASE: keycloak
-#      MYSQL_USER: keycloak
-#      MYSQL_PASSWORD: password
+  mysql_keycloack:
+    image: mysql:latest
+    container_name : mysql_keycloack
+    volumes:
+      - ./keycloack_mysql_data:/var/lib/keycloack_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: keycloak
+      MYSQL_USER: keycloak
+      MYSQL_PASSWORD: password
 
-#  keycloack:
-#    image: quay.io/keycloak/keycloak:latest
-#    container_name: keycloack
-#    depends_on:
-#      - mysql_keycloack
-#    ports:
-#      - "8989:8080"
-#    environment:
-#      DB_VENDOR: MYSQL
-#      DB_ADDR: mysql_keycloack
-#      DB_DATABASE: keycloak
-#      DB_USER: keycloak
-#      DB_PASSWORD: password
-#      KEYCLOAK_USER: admin
-#      KEYCLOAK_PASSWORD: admin
-#      PROXY_ADDRESS_FORWARDING: 'true'
-#      KEYCLOAK_FRONTEND_URL: keycloack.rillettes.diverse-team.fr
+  keycloack:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: keycloack
+    depends_on:
+      - mysql_keycloack
+    ports:
+      - "8989:8080"
+    environment:
+      DB_VENDOR: MYSQL
+      DB_ADDR: mysql_keycloack
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_PASSWORD: password
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      PROXY_ADDRESS_FORWARDING: 'true'
+      KEYCLOAK_FRONTEND_URL: https://keycloack.rillettes.diverse-team.fr/auth/
