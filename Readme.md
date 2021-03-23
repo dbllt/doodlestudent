@@ -4,7 +4,15 @@
 
 Notre application est disponible ici : [https://rillettes.diverse-team.fr](https://rillettes.diverse-team.fr/)
 
-[TOC]
+- [Tâche 0](#t-che-0)
+- [Tâche 1](#t-che-1)
+- [Tâches 2 et 3](#t-ches-2-et-3)
+- [Tâche 4](#t-che-4)
+- [Tâche 5](#t-che-5)
+- [Tâche 6](#t-che-6)
+- [Tâche 7](#t-che-7)
+- [Tâche 8](#t-che-8)
+- [Déploiement final](#d-ploiement-final)
 
 ### Tâche 0
 
