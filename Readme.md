@@ -16,7 +16,7 @@ Notre application est disponible ici : [https://rillettes.diverse-team.fr](https
 
 ### Tâche 0
 
-Nous avons créé une machine virtuelle, son IP est **148.60.11.221**, et notre sous-domaine associé est [rillettes.diverse-team.fr](rillettes.diverse-team.fr).
+Nous avons créé une machine virtuelle, son IP est **148.60.11.221**, et notre sous-domaine associé est **rillettes.diverse-team.fr**.
 
 Les ports **80** et **443** sont ouverts pour la suite du projet.
 
