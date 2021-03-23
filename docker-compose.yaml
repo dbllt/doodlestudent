@@ -59,6 +59,7 @@ services:
       - BLOCK_REFERRER=no
       - USE_LIMIT_REQ=no
       - USE_FAIL2BAN=no
+
   myadmin:
     image : phpmyadmin
     container_name: myadmin
