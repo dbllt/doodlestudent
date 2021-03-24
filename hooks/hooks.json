@@ -3,7 +3,7 @@
     "id": "redeploy",
     "execute-command": "/home/zprojet/doodlestudent/hooks/scripts/redeploy.sh",
     "command-working-directory": "/home/zprojet/doodlestudent/hooks",
-    "response-message": "Redeploying API server."
+    "response-message": "Redeploying application."
   }
 
 ]
