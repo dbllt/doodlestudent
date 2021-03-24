@@ -101,6 +101,8 @@ Lorsque le reverse proxy reçoit une requête sur cette adresse, il la retransme
 
 Le **webhook** exécute ensuite le script adapté, qui arrête les containers, pull sur **GitHub**, rebuild, et relance les containers.
 
+Le script `boot.sh` nous permet de démarer le webhook. En indiquant son éxécution dans une tâche cron, nous démarons le webhook à chaque redémarage de la VM.
+
 ![](./img/SchémaDéploiementContinu.png)
 
 Deux points à noter :
